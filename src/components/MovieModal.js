@@ -25,7 +25,7 @@ const FilmModal = ({ movie, onClose }) => {
     hidden: { y: "100vh" },
     visible: { 
       y: 0,
-      transition: { type: "spring", stiffness: 90 }
+      transition: { type: "spring", stiffness: 70 }
     },
     exit: {
       y: "100vh",
