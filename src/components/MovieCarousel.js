@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css'; 
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,15 +18,39 @@ const MovieCarousel = ({ movies }) => {
     setModalMovie(null);
   };
 
-  const NextArrow = ({ onClick }) => {
-    return (
-      <div className={`arrow next ${currentSlide === movies.length - 1 ? 'hidden' : ''}`} style={{ right: "10px", position: "absolute", top: "50%", zIndex: 1 }} onClick={onClick}>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-red-600 hover:text-red-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-    );
+  const [windowWidth, setWindowWidth] = useState(0);
+
+useEffect(() => {
+  setWindowWidth(window.innerWidth);
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
   };
+
+  window.addEventListener('resize', handleResize);
+  
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  }
+}, []);
+
+let slidesToShow = 5;
+
+if (windowWidth <= 600) {
+  slidesToShow = 1;
+} else if (windowWidth <= 1024) {
+  slidesToShow = 3;
+}
+
+const NextArrow = ({ onClick }) => {
+  return (
+    <div className={`arrow next ${currentSlide >= movies.length - slidesToShow ? 'hidden' : ''}`} style={{ right: "10px", position: "absolute", top: "50%", zIndex: 1 }} onClick={onClick}>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-red-600 hover:text-red-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  );
+};
+
 
   const PrevArrow = ({ onClick }) => {
     return (
