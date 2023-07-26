@@ -56,7 +56,7 @@ const FilmModal = ({ movie, onClose }) => {
               <h3 className="text-2xl text-red-600 font-hj font-bold mt-4">Overview</h3>
               <p>{movie.overview}</p>
               <h3 className="text-2xl text-red-600 font-hj font-bold mt-4">Cast</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
                 {cast.map((actor) => (
                   <div key={actor.id} className="flex flex-col items-center">
                     <img src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`} alt={actor.name} className="w-24 h-32 object-cover rounded-lg" />
