@@ -1,8 +1,10 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-
 export default function Document() {
   return (
     <Html lang="en">
+
+<link href="https://fonts.googleapis.com/css2?family=Handjet&family=Poppins&family=Roboto:ital@1&display=swap" rel="stylesheet"/>
+
       <Head />
       <body>
         <Main />
