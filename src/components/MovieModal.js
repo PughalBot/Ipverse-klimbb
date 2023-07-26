@@ -41,12 +41,17 @@ const FilmModal = ({ movie, onClose }) => {
         </svg>
       </button>
       <motion.div
-        className="border-2 border-red-600 bg-black bg-opacity-80 rounded-lg w-full md:max-w-[80vh] p-6 md:p-8 scrollbar-thin scrollbar-rounded-lg scrollbar-thumb-red-600 overflow-y-auto h-full md:h-[80vh]"
-        variants={modalAnimation}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
+  className="relative border-2 border-red-600 bg-black bg-opacity-80 rounded-lg w-full md:max-w-[80vh] p-6 md:p-8 scrollbar-thin scrollbar-rounded-lg scrollbar-thumb-red-600 overflow-y-auto h-full md:h-[80vh]"
+  variants={modalAnimation}
+  initial="hidden"
+  animate="visible"
+  exit="exit"
+>
+  <button className="md:hidden absolute top-4 right-4 text-red-600 hover:text-red-800 transition-colors focus:outline-none md:fixed md:top-auto md:right-auto z-60" onClick={onClose}>
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
         {movie && (
           <>
             <div className="flex flex-col items-center space-y-4 w-full">
