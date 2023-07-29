@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
 const FilmModal = ({ movie, onClose }) => {
   const [cast, setCast] = useState([]);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     const fetchCast = async () => {
@@ -21,6 +22,24 @@ const FilmModal = ({ movie, onClose }) => {
     }
   }, [movie]);
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      // Check if the event is a touch event
+      if ('TouchEvent' in window && e instanceof TouchEvent) return;
+  
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+  
+    document.addEventListener('mousedown', handleOutsideClick);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [onClose]);
+
+  
   const modalAnimation = {
     hidden: { y: "100vh" },
     visible: { 
@@ -35,13 +54,14 @@ const FilmModal = ({ movie, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div ref={modalRef}>
       <button className="fixed top-4 right-4 text-red-600 hover:text-red-800 transition-colors focus:outline-none" onClick={onClose}>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
       <motion.div
-  className="relative border-2 border-red-600 bg-black bg-opacity-80 rounded-lg w-full md:max-w-[80vh] p-6 md:p-8 scrollbar-thin scrollbar-rounded-lg scrollbar-thumb-red-600 overflow-y-auto h-full md:h-[80vh]"
+  className="relative border-2 border-red-600 bg-black bg-opacity-80 rounded-lg w-full md:max-w-[80vh] p-6 md:p-8 scrollbar-thin scrollbar-rounded-lg scrollbar-thumb-red-600 overflow-y-auto h-[90vh] md:h-[80vh]"
   variants={modalAnimation}
   initial="hidden"
   animate="visible"
@@ -73,6 +93,7 @@ const FilmModal = ({ movie, onClose }) => {
           </>
         )}
       </motion.div>
+      </div>
     </div>
   );
 };
